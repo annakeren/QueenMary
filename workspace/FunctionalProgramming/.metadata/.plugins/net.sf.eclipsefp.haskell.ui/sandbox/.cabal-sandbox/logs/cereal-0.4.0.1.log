@@ -1,0 +1,13 @@
+Building cereal-0.4.0.1...
+Preprocessing library cereal-0.4.0.1...
+[1 of 5] Compiling Data.Serialize.Builder ( src/Data/Serialize/Builder.hs, dist/dist-sandbox-e095aa34/build/Data/Serialize/Builder.o )
+[2 of 5] Compiling Data.Serialize.Put ( src/Data/Serialize/Put.hs, dist/dist-sandbox-e095aa34/build/Data/Serialize/Put.o )
+[3 of 5] Compiling Data.Serialize.Get ( src/Data/Serialize/Get.hs, dist/dist-sandbox-e095aa34/build/Data/Serialize/Get.o )
+[4 of 5] Compiling Data.Serialize.IEEE754 ( src/Data/Serialize/IEEE754.hs, dist/dist-sandbox-e095aa34/build/Data/Serialize/IEEE754.o )
+[5 of 5] Compiling Data.Serialize   ( src/Data/Serialize.hs, dist/dist-sandbox-e095aa34/build/Data/Serialize.o )
+[1 of 5] Compiling Data.Serialize.Builder ( src/Data/Serialize/Builder.hs, dist/dist-sandbox-e095aa34/build/Data/Serialize/Builder.p_o )
+[2 of 5] Compiling Data.Serialize.Put ( src/Data/Serialize/Put.hs, dist/dist-sandbox-e095aa34/build/Data/Serialize/Put.p_o )
+[3 of 5] Compiling Data.Serialize.Get ( src/Data/Serialize/Get.hs, dist/dist-sandbox-e095aa34/build/Data/Serialize/Get.p_o )
+[4 of 5] Compiling Data.Serialize.IEEE754 ( src/Data/Serialize/IEEE754.hs, dist/dist-sandbox-e095aa34/build/Data/Serialize/IEEE754.p_o )
+[5 of 5] Compiling Data.Serialize   ( src/Data/Serialize.hs, dist/dist-sandbox-e095aa34/build/Data/Serialize.p_o )
+In-place registering cereal-0.4.0.1...

@@ -1,0 +1,20 @@
+module Main where
+
+--lecture 2, exercise 3, done
+localNumber=(0747) 8293203
+
+let matchCharacterToDrop c=  not (c=='(' || c==')'  || c== ' ') 
+
+filter matchCharacterToDrop ukNumber
+--lecture 2, exercise 4
+card = "name:Anna;address:NW11;phonenumber:07478234567"
+let getNameFromCard theCard = takeWhile notcolon (drop 5 theCard) where notcolon c=not(c==';')
+*Main> getNameFromCard card "Anna"
+*Main> let hasYourName theCard name= (getNameFromCard theCard)==name 
+*Main> hasYourName card "Anna"
+True
+*Main> hasYourName card "danna"
+False
+
+main::IO()
+main = undefined
