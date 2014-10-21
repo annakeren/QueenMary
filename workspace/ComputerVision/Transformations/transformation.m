@@ -1,10 +1,10 @@
-theta1=-50;
+theta1=30;
 theta2=10;
 path = '/Users/annakeren/Documents/QueenMary/workspace/ComputerVision/Transformations/transformation.jpg';
 imageMatrix=imread(path);
 %just rotate
 rotatedMatrix = ICV_rotate(imageMatrix, theta1);
-imshow(rotatedMatrix)
+% imshow(rotatedMatrix)
 %just skew
 % skewedMatrix = ICV_skew(imageMatrix, theta2);
 % imshow(skewedMatrix)

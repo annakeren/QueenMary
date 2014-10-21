@@ -1,83 +1,66 @@
-function output_args = ICV_rotate( imageMatrix, angle)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
+function output_args = ICV_rotate( imageMatrixColoured, angle)
 
+imageMatrix= rgb2gray(imageMatrixColoured);
 [r, c]=size(imageMatrix);
-transformedMatrix = zeros(r, c);
 
-translatedMatrix=zeros(r+(r/8),c+(c/8));
+transformedMatrix = zeros(r*2, c*2);
+midx=ceil((size(imageMatrix,1)+1)/2);
+midy=ceil((size(imageMatrix,2)+1)/2);
+
+
+translatedMatrix=uint8(zeros(r*2, c*2));
+translatedToOriginMatrix=uint8(zeros(r,c));
+
 %translate matrix
-tx=r/8;
-
-ty=c/8;
+tx=midx;
+ty=midy;
 
 for i=1:r
-
+    ii=i + tx;
     for j=1:c
-
-        ii=i-tx;
-
-        jj=j-ty;
-
-        if (ii >=1 && jj>=1 && ii <(r-1) && jj<(c-1))
-
-            translatedMatrix(ii,jj)=imageMatrix(i,j);
-
-        end
-
+        jj=j+ty;
+        translatedMatrix(ii,jj)=imageMatrix(i,j);
     end
-
 end
-
+% imshow(translatedMatrix);
 %rotate matrix
 theta = ((360-angle)*pi)/180;
-
 sit=sin(theta);
-
 cot=cos(theta);
 
-for i=1:r
-
-    for j=1:c
-
+%try a new solution to rotate
+for i=(1+tx):((r*2)-tx)
+    for j=(1+ty):((c*2)-ty)
         ii=i*cot-j*sit;
-
         ii=round(ii);
-
         jj=i*sit+j*cot;
-
-        jj=round(jj);
-
-        if (ii >=1 && jj>=1 && ii <(r-1) && jj<(c-1))
-
-            transformedMatrix(ii,jj)=translatedMatrix(i,j);
-
+        jj=round(jj);       
+        if ii<1
+            ii = 1;
         end
-
+        if jj<1
+            jj = 1;
+        end
+        transformedMatrix(ii,jj)=translatedMatrix(i,j);
     end
-
 end
+imshow(transformedMatrix)
 %translate to origins
 
-
-translatedToOriginMatrix=zeros(r+(r/8),c+(c/8));
-
-for i=1:r
-
-    for j=1:c
-
+for i=(1+tx):((r*2)-tx)
+    for j=(1+ty):((c*2)-ty)
         ii=i+tx;
-
         jj=j+ty;
-
-        if (ii >=1 && jj>=1 && ii <(r-1) && jj<(c-1))
-
-            translatedToOriginMatrix(ii,jj)=transformedMatrix(i,j);
-
+        if ii<1
+            ii = 1;
         end
-
+        if jj<1
+            jj = 1;
+        end
+%         if (ii >=1 && jj>=1 && ii <((r)-1) && jj<((c)-1))
+            translatedToOriginMatrix(ii,jj)=transformedMatrix(i,j);
+%         end
     end
-
 end
 output_args = translatedToOriginMatrix;
 end

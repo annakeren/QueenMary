@@ -1,0 +1,14 @@
+module Main where
+
+
+data Jason a = Leaf a  | Branch a [Jason a ] deriving (Show)
+data JasonNode a b= JasonNode String String | String deriving (Show)
+sample1 :: Jason String 
+sample1 = Branch "a"  [Branch "c" [], Branch "d" [Branch "e" []], Branch "F" []]
+
+
+
+
+  
+main::IO()
+main = undefined
