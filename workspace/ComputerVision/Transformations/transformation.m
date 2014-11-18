@@ -1,19 +1,27 @@
-theta1=30;
-theta2=10;
+%Please edit these values
+rotationAngle=20;
+skewingAngle=50;
 path = '/Users/annakeren/Documents/QueenMary/workspace/ComputerVision/Transformations/transformation.jpg';
-imageMatrix=imread(path);
-%just rotate
-rotatedMatrix = ICV_rotate(imageMatrix, theta1);
+
+imageMatrixColoured=imread(path);
+%if image is coloured, thenconvert to gray scale, if not comment this line
+imageMatrix= rgb2gray(imageMatrixColoured);
+% imshow(imageMatrix)
+%just rotate, uncommenct to see the result
+% rotatedMatrix = ICV_rotate(imageMatrix, rotationAngle);
 % imshow(rotatedMatrix)
-%just skew
-% skewedMatrix = ICV_skew(imageMatrix, theta2);
+
+
+%skew after rotated, uncomment to see the result
+% skewedMatrix = ICV_skew(rotatedMatrix, skewingAngle);
 % imshow(skewedMatrix)
 
 
-%skew after rotated
-% skewedMatrix = ICV_skew(rotatedMatrix, theta2);
+%just skew, uncomment to see the result
+skewedMatrix = ICV_skew(imageMatrix, skewingAngle);
+% imshow(skewedMatrix)
 
-%rotate skewed
-% rotatedMatrix = ICV_rotate(skewedMatrix, theta1);
-% imshow(rotatedMatrix)
+%rotate skewed, uncomment to see the result
+rotatedMatrix = ICV_rotate(skewedMatrix, rotationAngle);
+imshow(rotatedMatrix)
 

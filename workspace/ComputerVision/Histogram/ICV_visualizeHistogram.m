@@ -1,4 +1,5 @@
 function [] = ICV_visualizeHistogram( freqR,  freqG, freqB)
+%The function gets three parameters 
 %the function builds three bar charts for every colour
 
 figure ('name', 'red') ;

@@ -1,0 +1,687 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red34\green139\blue34;\red0\green0\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs20 \cf2 % currentBlockI = 0;
+\fs24 \cf0 \
+
+\fs20 \cf2 %     for l=2:(d - 1)
+\fs24 \cf0 \
+
+\fs20 \cf2 %         resembles = 0;
+\fs24 \cf0 \
+
+\fs20 \cf2 %         motionSuspect = 0;
+\fs24 \cf0 \
+
+\fs20 \cf2 %         blockKand1L = frame2DevidedIntoBlocks(:,:,l);
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %check if the blocks are equal (case of no motion)
+\fs24 \cf0 \
+
+\fs20 \cf2 %         [br, bc, bd] = size(blockKand1L);
+\fs24 \cf0 \
+
+\fs20 \cf2 %         blockKL = frame1DevidedIntoBlocks(:,:,l);
+\fs24 \cf0 \
+
+\fs20 \cf2 %         motionSuspect = ICV_detectMotion(blockKL, blockKand1L, br, bc, motionSuspect);
+\fs24 \cf0 \
+
+\fs20 \cf2 %         
+\fs24 \cf0 \
+
+\fs20 \cf2 %         
+\fs24 \cf0 \
+
+\fs20 \cf2 % 
+\fs24 \cf0 \
+
+\fs20 \cf2 %         if motionSuspect == 0
+\fs24 \cf0 \
+
+\fs20 \cf2 %             %disp('motionSuspect == FALSE');
+\fs24 \cf0 \
+
+\fs20 \cf2 %             continue;%this means that two corresponding blocks 
+\fs24 \cf0 \
+
+\fs20 \cf2 %             %from consequent frames are equal, no motion in this block
+\fs24 \cf0 \
+
+\fs20 \cf2 %         end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %disp('blocks not equal, perform search');
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %blocks not equal, perform search
+\fs24 \cf0 \
+
+\fs20 \cf2 %         rowsByNow = round(l/blocksInRow);
+\fs24 \cf0 \
+
+\fs20 \cf2 %         if (mod(l, blocksInRow) == 0)
+\fs24 \cf0 \
+
+\fs20 \cf2 %             currentBlockJ = 1;
+\fs24 \cf0 \
+
+\fs20 \cf2 %             currentBlockI = currentBlockI + 4;
+\fs24 \cf0 \
+
+\fs20 \cf2 %         else
+\fs24 \cf0 \
+
+\fs20 \cf2 %             if (l > blocksInRow)
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 currentBlockJ = mod(l, blocksInRow)*4;
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 currentBlockI = rowsByNow;
+\fs24 \cf0 \
+
+\fs20 \cf2 %             else
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 currentBlockJ = l*4;
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 currentBlockI = rowsByNow;
+\fs24 \cf0 \
+
+\fs20 \cf2 %             end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         end
+\fs24 \cf0 \
+
+\fs20 \cf2 %                
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %check l+1
+\fs24 \cf0 \
+
+\fs20 \cf2 %         m = l + 1;
+\fs24 \cf0 \
+
+\fs20 \cf2 %         blockKL = frame1DevidedIntoBlocks(:,:,m);
+\fs24 \cf0 \
+
+\fs20 \cf2 %         resembles = ICV_detectResemblence(blockKL, blockKand1L, br, bc, resembles);
+\fs24 \cf0 \
+
+\fs20 \cf2 %         if resembles == 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %             motionVector = ICV_drawEastVector(motionVector, currentBlockI, currentBlockJ);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             continue;
+\fs24 \cf0 \
+
+\fs20 \cf2 %         end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %check l-1
+\fs24 \cf0 \
+
+\fs20 \cf2 %         m = l - 1;
+\fs24 \cf0 \
+
+\fs20 \cf2 %         blockKL = frame1DevidedIntoBlocks(:,:,m);
+\fs24 \cf0 \
+
+\fs20 \cf2 %         resembles = ICV_detectResemblence(blockKL, blockKand1L, br, bc, resembles);
+\fs24 \cf0 \
+
+\fs20 \cf2 %         if resembles == 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %           motionVector = ICV_drawWestVector(motionVector, currentBlockI, currentBlockJ);
+\fs24 \cf0 \
+
+\fs20 \cf2 %           continue
+\fs24 \cf0 \
+
+\fs20 \cf2 %         end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %check l + blocksInRow
+\fs24 \cf0 \
+
+\fs20 \cf2 %         
+\fs24 \cf0 \
+
+\fs20 \cf2 %         m = l + blocksInRow;
+\fs24 \cf0 \
+
+\fs20 \cf2 %         if (m > 1) && (m < d)
+\fs24 \cf0 \
+
+\fs20 \cf2 %             blockKL = frame1DevidedIntoBlocks(:,:,m);
+\fs24 \cf0 \
+
+\fs20 \cf2 % 
+\fs24 \cf0 \
+
+\fs20 \cf2 %             resembles = ICV_detectResemblence(blockKL, blockKand1L, br, bc, resembles);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             if resembles == 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 motionVector = ICV_drawSouthVector(motionVector, currentBlockI, currentBlockJ);
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 continue
+\fs24 \cf0 \
+
+\fs20 \cf2 %             end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %check l + blocksInRow + 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %         m = l + blocksInRow + 1;
+\fs24 \cf0 \
+
+\fs20 \cf2 %         if (m > 1) && (m < d)
+\fs24 \cf0 \
+
+\fs20 \cf2 %             blockKL = frame1DevidedIntoBlocks(:,:,m);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             resembles = ICV_detectResemblence(blockKL, blockKand1L, br, bc, resembles);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             if resembles == 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 motionVector = ICV_drawSouthEastVector(motionVector, currentBlockI, currentBlockJ);
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 continue
+\fs24 \cf0 \
+
+\fs20 \cf2 %             end
+\fs24 \cf0 \
+
+\fs20 \cf2 %        end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %check l + blocksInRow - 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %         m = l + blocksInRow - 1;
+\fs24 \cf0 \
+
+\fs20 \cf2 %         if (m > 1) && (m < d)
+\fs24 \cf0 \
+
+\fs20 \cf2 %             blockKL = frame1DevidedIntoBlocks(:,:,m);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             resembles = ICV_detectResemblence(blockKL, blockKand1L, br, bc, resembles);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             if resembles == 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 motionVector = ICV_drawSouthWestVector(motionVector, currentBlockI, currentBlockJ);
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 continue
+\fs24 \cf0 \
+
+\fs20 \cf2 %             end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %check l - blocksInRow
+\fs24 \cf0 \
+
+\fs20 \cf2 %         m = l - blocksInRow;
+\fs24 \cf0 \
+
+\fs20 \cf2 %         if (m > 1) && (m < d)
+\fs24 \cf0 \
+
+\fs20 \cf2 %             blockKL = frame1DevidedIntoBlocks(:,:,m);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             resembles = ICV_detectResemblence(blockKL, blockKand1L, br, bc, resembles);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             if resembles == 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 motionVector = ICV_drawNorthVector(motionVector, currentBlockI, currentBlockJ);
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 continue
+\fs24 \cf0 \
+
+\fs20 \cf2 %             end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %check l - blocksInRow + 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %         if (m > 1) && (m < d)
+\fs24 \cf0 \
+
+\fs20 \cf2 %             m = l - blocksInRow + 1;
+\fs24 \cf0 \
+
+\fs20 \cf2 %             blockKL = frame1DevidedIntoBlocks(:,:,m);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             resembles = ICV_detectResemblence(blockKL, blockKand1L, br, bc, resembles);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             if resembles == 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 motionVector = ICV_drawNorthEastVector(motionVector, currentBlockI, currentBlockJ);
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 continue
+\fs24 \cf0 \
+
+\fs20 \cf2 %             end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         %check l - blocksInRow - 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %         m = l - blocksInRow - 1; 
+\fs24 \cf0 \
+
+\fs20 \cf2 %         if (m > 1) && (m < d)
+\fs24 \cf0 \
+
+\fs20 \cf2 %             blockKL = frame1DevidedIntoBlocks(:,:,m);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             resembles = ICV_detectResemblence(blockKL, blockKand1L, br, bc, resembles);
+\fs24 \cf0 \
+
+\fs20 \cf2 %             if resembles == 1
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 motionVector = ICV_drawNorthWestVector(motionVector, currentBlockI, currentBlockJ);
+\fs24 \cf0 \
+
+\fs20 \cf2 %                 continue
+\fs24 \cf0 \
+
+\fs20 \cf2 %             end
+\fs24 \cf0 \
+
+\fs20 \cf2 %         end
+\fs24 \cf0 \
+
+\fs20 \cf2 %     end
+\fs24 \cf0 \
+\
+\
+\
+\
+\
+//////////\
+\pard\pardeftab720
+
+\fs20 \cf0 m = l + 1;
+\fs24 \
+
+\fs20         \cf3 if\cf0  (m > 1) && (m < d)
+\fs24 \
+
+\fs20             blockKand1Double = frame2DevidedIntoBlocks(:,:,m);
+\fs24 \
+
+\fs20             blockKand1 = im2uint8(blockKand1Double);
+\fs24 \
+
+\fs20             resembles = ICV_detectResemblence(blockK, blockKand1, br, bc, resembles);
+\fs24 \
+
+\fs20             \cf3 if\cf0  resembles == 1
+\fs24 \
+
+\fs20                 motionVector(ii:ii + 3, jj:jj + 3) = ICV_drawEastVector(motionVector, ii, jj);
+\fs24 \
+
+\fs20                 predictionVector(ii+1:ii + 4, jj+1:jj + 4) = blockKand1;
+\fs24 \
+
+\fs20                 \cf3 continue\cf0 ;
+\fs24 \
+
+\fs20             \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf2 %check l-1
+\fs24 \cf0 \
+\pard\pardeftab720
+
+\fs20 \cf2  
+\fs24 \cf0 \
+\pard\pardeftab720
+
+\fs20 \cf0         m = l - 1;
+\fs24 \
+
+\fs20         \cf3 if\cf0  (m > 1) && (m < d)
+\fs24 \
+
+\fs20             blockKand1Double = frame2DevidedIntoBlocks(:,:,m);
+\fs24 \
+
+\fs20             blockKand1 = im2uint8(blockKand1Double);
+\fs24 \
+
+\fs20             resembles = ICV_detectResemblence(blockK, blockKand1, br, bc, resembles);
+\fs24 \
+
+\fs20             \cf3 if\cf0  resembles == 1
+\fs24 \
+
+\fs20                 motionVector(ii:ii + 3, jj:jj + 3) = ICV_drawWestVector(motionVector, ii, jj);
+\fs24 \
+
+\fs20                 \cf3 if\cf0 ((ii - 1) > 1) && ((ii - 1) < d) && ((ii + 2) > 1) && ((ii + 2) < d) && ((jj - 1) > 1) && ((jj - 1) < d) && ((jj + 2) > 1) && ((jj + 2) < d)
+\fs24 \
+
+\fs20                     predictionVector(ii - 1:ii + 2, jj - 1:jj + 2) = blockKand1;
+\fs24 \
+
+\fs20                 \cf3 end
+\fs24 \cf0 \
+
+\fs20                 \cf3 continue\cf0 ;
+\fs24 \
+
+\fs20             \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf2 %check l + blocksInRow
+\fs24 \cf0 \
+\pard\pardeftab720
+
+\fs20 \cf2  
+\fs24 \cf0 \
+\pard\pardeftab720
+
+\fs20 \cf0         m = l + blocksInRow;
+\fs24 \
+
+\fs20         \cf3 if\cf0  (m > 1) && (m < d)
+\fs24 \
+
+\fs20             blockKand1Double = frame2DevidedIntoBlocks(:,:,m);
+\fs24 \
+
+\fs20             blockKand1 = im2uint8(blockKand1Double);
+\fs24 \
+
+\fs20             resembles = ICV_detectResemblence(blockK, blockKand1, br, bc, resembles);
+\fs24 \
+
+\fs20             \cf3 if\cf0  resembles == 1
+\fs24 \
+
+\fs20                 motionVector(ii:ii + 3, jj:jj + 3) = ICV_drawSouthVector(motionVector, ii, jj);
+\fs24 \
+
+\fs20                 \cf3 if\cf0 ((ii + blocksInRow) > 1) && ((ii + blocksInRow) < d) && ((ii + blocksInRow + 3) > 1) && ((ii + blocksInRow + 3) < d) && ((jj + blocksInRow) > 1) && ((jj + blocksInRow) < d) && ((jj + blocksInRow + 3) > 1) && ((jj + blocksInRow + 3) < d)
+\fs24 \
+
+\fs20                     predictionVector(ii + blocksInRow:ii + blocksInRow + 3, jj + blocksInRow:jj + blocksInRow + 3) = blockKand1;
+\fs24 \
+
+\fs20                 \cf3 end
+\fs24 \cf0 \
+
+\fs20                 \cf3 continue\cf0 ;
+\fs24 \
+
+\fs20             \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf2 %check l + blocksInRow + 1
+\fs24 \cf0 \
+
+\fs20         m = l + blocksInRow + 1;
+\fs24 \
+
+\fs20         \cf3 if\cf0  (m > 1) && (m < d)
+\fs24 \
+
+\fs20             blockKand1Double = frame2DevidedIntoBlocks(:,:,m);
+\fs24 \
+
+\fs20             blockKand1 = im2uint8(blockKand1Double);
+\fs24 \
+
+\fs20             resembles = ICV_detectResemblence(blockK, blockKand1, br, bc, resembles);
+\fs24 \
+
+\fs20             \cf3 if\cf0  resembles == 1
+\fs24 \
+
+\fs20                 motionVector(ii:ii + 3, jj:jj + 3) = ICV_drawSouthEastVector(motionVector, ii, jj);
+\fs24 \
+
+\fs20                 \cf3 if\cf0 ((ii + blocksInRow + 1) > 1) && ((ii + blocksInRow + 1) < d) && ((ii + blocksInRow + 1 + 3) > 1) && ((ii + blocksInRow + 1 + 3) < d) && ((jj + blocksInRow + 1) > 1) && ((jj + blocksInRow + 1) < d) && ((jj + blocksInRow + 1+ 3) > 1) && ((jj + blocksInRow + 1 + 3) < d)
+\fs24 \
+
+\fs20                     predictionVector(ii + blocksInRow + 1:ii + blocksInRow + 1 + 3, jj+blocksInRow + 1:jj + blocksInRow + 1 + 3) = blockKand1;
+\fs24 \
+
+\fs20                 \cf3 end
+\fs24 \cf0 \
+
+\fs20                 \cf3 continue\cf0 ;
+\fs24 \
+
+\fs20             \cf3 end
+\fs24 \cf0 \
+
+\fs20        \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf2 %check l + blocksInRow - 1
+\fs24 \cf0 \
+
+\fs20         m = l + blocksInRow - 1;
+\fs24 \
+
+\fs20         \cf3 if\cf0  (m > 1) && (m < d)
+\fs24 \
+
+\fs20             blockKand1Double = frame2DevidedIntoBlocks(:,:,m);
+\fs24 \
+
+\fs20             blockKand1 = im2uint8(blockKand1Double);
+\fs24 \
+
+\fs20             resembles = ICV_detectResemblence(blockK, blockKand1, br, bc, resembles);
+\fs24 \
+
+\fs20             \cf3 if\cf0  resembles == 1
+\fs24 \
+
+\fs20                 motionVector(ii:ii + 3, jj:jj + 3) = ICV_drawSouthWestVector(motionVector, ii, jj);
+\fs24 \
+
+\fs20                 \cf3 if\cf0 ((ii + blocksInRow) > 1) && ((ii + blocksInRow) < d) && ((ii + blocksInRow + 3) > 1) && ((ii + blocksInRow + 3) < d) && ((jj + blocksInRow) > 1) && ((jj + blocksInRow) < d) && ((jj + blocksInRow + 3) > 1) && ((jj + blocksInRow + 3) < d)
+\fs24 \
+
+\fs20                     predictionVector(ii + blocksInRow - 1:ii + blocksInRow - 1 + 3, jj+blocksInRow - 1:jj + blocksInRow - 1 + 3) = blockKand1;
+\fs24 \
+
+\fs20                 \cf3 end
+\fs24 \cf0 \
+
+\fs20                 \cf3 continue\cf0 ;
+\fs24 \
+
+\fs20             \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf2 %check l - blocksInRow
+\fs24 \cf0 \
+
+\fs20         m = l - blocksInRow;
+\fs24 \
+
+\fs20         \cf3 if\cf0  (m > 1) && (m < d)
+\fs24 \
+
+\fs20             blockKand1Double = frame2DevidedIntoBlocks(:,:,m);
+\fs24 \
+
+\fs20             blockKand1 = im2uint8(blockKand1Double);
+\fs24 \
+
+\fs20             resembles = ICV_detectResemblence(blockK, blockKand1, br, bc, resembles);
+\fs24 \
+
+\fs20             \cf3 if\cf0  resembles == 1
+\fs24 \
+
+\fs20                 motionVector(ii:ii + 3, jj:jj + 3) = ICV_drawNorthVector(motionVector, ii, jj);
+\fs24 \
+
+\fs20                 \cf3 if\cf0 ((ii - blocksInRow) > 1) && ((ii - blocksInRow) < d) && ((ii - blocksInRow + 3) > 1) && ((ii - blocksInRow + 3) < d) && ((jj - blocksInRow) > 1) && ((jj - blocksInRow) < d) && ((jj - blocksInRow + 3) > 1) && ((jj - blocksInRow + 3) < d)
+\fs24 \
+
+\fs20                     predictionVector(ii - blocksInRow :ii - blocksInRow + 3, jj-blocksInRow:jj - blocksInRow + 3) = blockKand1;
+\fs24 \
+
+\fs20                 \cf3 end
+\fs24 \cf0 \
+
+\fs20                 \cf3 continue\cf0 ;
+\fs24 \
+
+\fs20             \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf2 %check l - blocksInRow + 1
+\fs24 \cf0 \
+
+\fs20         \cf3 if\cf0  (m > 1) && (m < d)
+\fs24 \
+
+\fs20             m = l - blocksInRow + 1;
+\fs24 \
+
+\fs20             blockKand1Double = frame2DevidedIntoBlocks(:,:,m);
+\fs24 \
+
+\fs20             blockKand1 = im2uint8(blockKand1Double);
+\fs24 \
+
+\fs20             resembles = ICV_detectResemblence(blockK, blockKand1, br, bc, resembles);
+\fs24 \
+
+\fs20             \cf3 if\cf0  resembles == 1
+\fs24 \
+
+\fs20                 motionVector(ii:ii + 3, jj:jj + 3) = ICV_drawNorthEastVector(motionVector, ii, jj);
+\fs24 \
+
+\fs20                 \cf3 if\cf0 ((ii - blocksInRow + 1) > 1) && ((ii - blocksInRow + 1) < d) && ((ii - blocksInRow + 1 + 3) > 1) && ((ii - blocksInRow +1 + 3) < d) && ((jj - blocksInRow + 1) > 1) && ((jj - blocksInRow + 1) < d) && ((jj - blocksInRow + 1 + 3) > 1) && ((jj - blocksInRow + 1 + 3) < d)
+\fs24 \
+
+\fs20                     predictionVector(ii - blocksInRow + 1:ii - blocksInRow + 1 + 3, jj-blocksInRow + 1:jj- blocksInRow + 1 + 3) = blockKand1;
+\fs24 \
+
+\fs20                 \cf3 end
+\fs24 \cf0 \
+
+\fs20                 \cf3 continue\cf0 ;
+\fs24 \
+
+\fs20             \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf2 %check l - blocksInRow - 1
+\fs24 \cf0 \
+
+\fs20         m = l - blocksInRow - 1; 
+\fs24 \
+
+\fs20         \cf3 if\cf0  (m > 1) && (m < d)
+\fs24 \
+
+\fs20             blockKand1Double = frame2DevidedIntoBlocks(:,:,m);
+\fs24 \
+
+\fs20             blockKand1 = im2uint8(blockKand1Double);
+\fs24 \
+
+\fs20             resembles = ICV_detectResemblence(blockK, blockKand1, br, bc, resembles);
+\fs24 \
+
+\fs20             \cf3 if\cf0  resembles == 1
+\fs24 \
+
+\fs20                 motionVector(ii:ii + 3, jj:jj + 3) = ICV_drawNorthWestVector(motionVector, ii, jj);
+\fs24 \
+
+\fs20                 \cf3 if\cf0 ((ii - blocksInRow - 1) > 1) && ((ii - blocksInRow - 1) < d) && ((ii - blocksInRow - 1 + 3) > 1) && ((ii - blocksInRow - 1 + 3) < d) && ((jj - blocksInRow - 1) > 1) && ((jj - blocksInRow - 1) < d) && ((jj - blocksInRow - 1 + 3) > 1) && ((jj - blocksInRow - 1 + 3) < d)
+\fs24 \
+
+\fs20                     predictionVector(ii - blocksInRow - 1:ii - blocksInRow - 1 + 3, jj-blocksInRow - 1:jj - blocksInRow - 1 + 3) = blockKand1;
+\fs24 \
+
+\fs20                 \cf3 end
+\fs24 \cf0 \
+
+\fs20                 \cf3 continue\cf0 ;
+\fs24 \
+
+\fs20             \cf3 end
+\fs24 \cf0 \
+
+\fs20         \cf3 end
+\fs24 \cf0 \
+}
