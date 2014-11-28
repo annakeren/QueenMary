@@ -49,63 +49,39 @@ for ii = [1:blockHeight:matrixSizeX - blockWidth, matrixSizeX - blockWidth + 1]
             end
         end
 %        culaculate in order to find out in which direction vectors points
-        half = round(v/2);
+        half = round(w/2);
         iiStep = ii + blockHeight - 1;
         jjStep = jj + blockWidth - 1;
         motionVector(ii:iiStep, jj:jjStep) = frame1DevidedIntoBlocks(:,:,l);
         predictionVector(ii:iiStep, jj:jjStep) = frame1DevidedIntoBlocks(:,:,l);
-        centerI = round((ii + iiStep)/2);
-% centerI = ii;
-        centerJ = round((jj + jjStep)/2);
-% centerJ = jj;
-        %ii is coordinatesIStart, jj is coorditanetesJStart
-        if(smallestIndexV <= half)
-            smallestIndexI = centerI - smallestIndexV;
-        else
-            smallestIndexI = centerI + smallestIndexV;
+        centerI = ii + round(blockHeight/2);
+        centerJ = jj + round(blockWidth/2);
+        if centerI < 1
+            centerI = 1;
         end
-        if(smallestIndexW <= half)
-            smallestIndexJ = centerJ - smallestIndexW;
+        if centerJ < 1
+            centerJ = 1;
+        end
+        
+        if(smallestIndexV < half)
+            smallestIndexI =  -centerI - smallestIndexV;
+        else
+            smallestIndexI =  centerI + smallestIndexV;
+        end
+        if(smallestIndexW < half)
+            smallestIndexJ = -centerJ - smallestIndexW;
         else
             smallestIndexJ = centerJ + smallestIndexW;
         end
         
-        xSource(quiverIndex) = horzcat(centerI);
-        ySource(quiverIndex) = horzcat (centerJ);
+        xSource(quiverIndex) = horzcat(centerJ);
+        ySource(quiverIndex) = horzcat (centerI);
 
-        uSource(quiverIndex) = horzcat(smallestIndexI);
-        vSource(quiverIndex) = horzcat(smallestIndexJ);     
+        uSource(quiverIndex) = horzcat(smallestIndexJ);
+        vSource(quiverIndex) = horzcat(smallestIndexI);     
 
         quiverIndex = quiverIndex + 1;
-        
-%         for v=1:w
-%             smallestV = resemblenceVector(v);
-%             if(smallestV < smallest)
-%                 smallest = smallestV;
-%                 smallestIndex = v;
-%             end
-%         end
-%          
-%         iiStep = ii + blockHeight - 1;
-%         jjStep = jj + blockWidth - 1;
-%     
-%         
-%         if smallestIndex == 1
-%             motionVector(ii:iiStep, jj:jjStep) = ICV_drawNorthWestVector(frame1DevidedIntoBlocks(:,:,l));
-%             predictionVector(ii:iiStep, jj:jjStep) = frame1DevidedIntoBlocks(:,:,l);
-%         elseif smallestIndex == 2
-%             motionVector(ii:iiStep, jj:jjStep) = ICV_drawNorthEastVector(frame1DevidedIntoBlocks(:,:,l));
-%             predictionVector(ii:iiStep, jj:jjStep) = frame1DevidedIntoBlocks(:,:,l);
-%         elseif smallestIndex == 3
-%             motionVector(ii:iiStep, jj:jjStep) = ICV_drawSouthWestVector(frame1DevidedIntoBlocks(:,:,l));
-%             predictionVector(ii:iiStep, jj:jjStep) = frame1DevidedIntoBlocks(:,:,l);
-%         elseif smallestIndex == 4
-%             motionVector(ii:iiStep, jj:jjStep) = ICV_drawSouthEastVector(frame1DevidedIntoBlocks(:,:,l));
-%             predictionVector(ii:iiStep, jj:jjStep) = frame1DevidedIntoBlocks(:,:,l);
-%         else
-%             motionVector(ii:iiStep, jj:jjStep) = frame1DevidedIntoBlocks(:,:,l);
-%             predictionVector(ii:iiStep, jj:jjStep) = frame1DevidedIntoBlocks(:,:,l);
-%         end
+  
         l = l + 1;    
     end
 end
