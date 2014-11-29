@@ -55,11 +55,10 @@ start16_16 = tic;
 % quiver(xSource, ySource, uSource, vSource);
 tElapsed16_16=toc(start16_16);
 
-%4 e
-blockChangePlot = [tElapsed4_16 tElapsed8_16 tElapsed16_16];
-str = {'b 4 sw 16'; 'b 8 sw 16'; 'b 16 sw 16'};
-bar(blockChangePlot)
-set(gca, 'XTickLabel',str, 'XTick',1:numel(str))
+% x = [tElapsed4_16 tElapsed8_16 tElapsed16_16];
+% str = {'b 4 sw 16'; 'b 8 sw 16'; 'b 16 sw 16'};
+% bar(x)
+% set(gca, 'XTickLabel',str, 'XTick',1:numel(str))
 
 %4 d
 block = zeros(8, 8);
@@ -97,11 +96,10 @@ start8_32 = tic;
 % quiver(xSource, ySource, uSource, vSource);
 tElapsed8_32=toc(start8_32);
 
- %4 e   
-% searchWindowChangePlot = [tElapsed8_8 tElapsed8_16 tElapsed8_32];
-% str = {'b 8 sw 8'; 'b 8 sw 16'; 'b 8 sw 32'};
-% bar(searchWindowChangePlot)
-% set(gca, 'XTickLabel',str, 'XTick',1:numel(str))
+x = [tElapsed4_16 tElapsed8_16 tElapsed8_32];
+str = {'b 4 sw 16'; 'b 8 sw 16'; 'b 16 sw 16'};
+bar(x)
+set(gca, 'XTickLabel',str, 'XTick',1:numel(str))
 
 %4 b  , uncomment with 4 a
 %  imshow(predictionVectorUint8);

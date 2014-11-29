@@ -16,7 +16,7 @@ for frameIndex=1:frameNumber
     end
     if frameIndex == frameIndex2
         frame2 = currentFrame;
-        imshow(frame2)
+%         imshow(frame2)
     end
 end
 
