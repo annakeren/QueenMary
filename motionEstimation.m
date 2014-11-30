@@ -8,16 +8,16 @@ videoFrames = ICV_getFramesFromAVI(path);
 frameK = 31;  
 frameKAnd1 = 32;
 %4 a
-% block = zeros(16, 16);
-% searchWindow = zeros(20,20);
+block = zeros(16, 16);
+searchWindow = zeros(20,20);
 
 start16_20 = tic;
 [motionVectorUint8, predictionVectorUint8, xSource, ySource, uSource, vSource, frame1] = ICV_getMotionEstimation(videoFrames, frameK, frameKAnd1, block, searchWindow);
 %this shows arrows on the frame
-% figure;
-% imshow(frame1, []);
-% hold on;
-% quiver(xSource, ySource, uSource, vSource);
+figure;
+imshow(frame1, []);
+hold on;
+quiver(xSource, ySource, uSource, vSource);
 tElapsed16_20=toc(start16_20);
 
 
@@ -56,10 +56,10 @@ start16_16 = tic;
 tElapsed16_16=toc(start16_16);
 
 %4 e
-blockChangePlot = [tElapsed4_16 tElapsed8_16 tElapsed16_16];
-str = {'b 4 sw 16'; 'b 8 sw 16'; 'b 16 sw 16'};
-bar(blockChangePlot)
-set(gca, 'XTickLabel',str, 'XTick',1:numel(str))
+% blockChangePlot = [tElapsed4_16 tElapsed8_16 tElapsed16_16];
+% str = {'b 4 sw 16'; 'b 8 sw 16'; 'b 16 sw 16'};
+% bar(blockChangePlot)
+% set(gca, 'XTickLabel',str, 'XTick',1:numel(str))
 
 %4 d
 block = zeros(8, 8);
