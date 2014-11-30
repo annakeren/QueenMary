@@ -1,0 +1,28 @@
+module Main where
+
+data Tree a = Empty | Node a (Tree a) (Tree a) deriving (Show)
+freeTree :: Tree String  
+freeTree =   
+    Node "glossary" 
+        (Node "title"  "example glossary" Empty Empty)  
+        (Node "GlossDiv"  
+            (Node "title"  "S" Empty Empty)
+            (Node "GlossList"  
+                (Node "GlossEntry"  
+                        (Node "ID"  "SGML" Empty Empty) 
+                        (Node "SortAs"  "SGML" Empty Empty) 
+                         (Node "GlossTerm"  "Standard Generalized Markup Language" Empty Empty) 
+                         (Node "Acronym"  "SGML" Empty Empty) 
+                         (Node "Abbrev"  "ISO 8879:1986" Empty Empty) 
+                         (Node "GlossDef"
+                                (Node "para"  "A meta-markup language, used to create markup languages such as DocBook.") 
+                                (Node "GlossSeeAlso"
+                                        (Node "GML" Empty Empty) 
+                                        (Node "XML" Empty Empty) 
+                                )
+                         )  
+                )  
+            )     
+        )  
+main::IO()
+main = undefined
