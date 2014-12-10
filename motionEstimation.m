@@ -19,7 +19,7 @@ imshow(frame1, []);
 hold on;
 quiver(xSource, ySource, uSource, vSource);
 tElapsed16_20=toc(start16_20);
-
+% imshow(predictionVectorUint8);
 
 %4 c
 block = zeros(4, 4);
